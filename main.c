@@ -13,6 +13,9 @@
 
 #define N 20
 
+struct f1er * create_filtro_primer_orden (float fc, float fs);
+
+
 int main()
 {
     uint8_t i=0;
@@ -30,7 +33,7 @@ int main()
     struct factory_f2er_high_pass * factory5;
     struct factory_fsos * factory6;
 
-    uint8_t error=NO_ERROR;
+    t_errors_f1er error=NO_ERROR;
 
     float_t bsos[6]={1.0,2.0,1.0,1.0,2.0,1.0}; // Sos1, Sos2
     float_t asos[6]={1.0,-0.8659,0.21,1.0,-1.1249,0.5777}; //Sos1, Sos2
@@ -38,13 +41,29 @@ int main()
     float_t udc[N], udc2[N];
     float_t udc_second[N],udc_second_band_pass[N],udc_second_high_pass[N];
     float_t udc_fsos[N];
-
+#if 0
     factory1 = malloc(sizeof(*factory1));
     factory_f1er_low_pass_init(factory1);
 //    factory1->factory_f1er.config.fc=(float_t)1.0;
 //    factory1->factory_f1er.config.fs=(float_t)0.0;
     error=set_frecuencies_f1er_low_pass_init(&factory1->factory_f1er,0.0,1.0);
+    switch (error) {
+    case ERROR_FC_ZERO:
+        printf ("la frecuencia de corte es 0\n");
+        break;
+    case ERROR_FS_ZERO:
+        printf ("la frecuencia de muestreo es 0\n");
+        break;
+    case ERROR_FS_MINOR_FC:
+        printf ("la frecuencia de muestreo es menor que la frecuencia de cortte\n");
+        break;
+    default:
+        break;
+    }
     filtro1=factory_f1er_create(&factory1->factory_f1er);
+#endif
+
+    filtro1=create_filtro_primer_orden(1.0,10.0);
 
     factory2 = malloc(sizeof(*factory2));
     factory_f1er_high_pass_init(factory2);
@@ -97,4 +116,31 @@ int main()
         printf("fsosth:%f\n",(float)udc_fsos[i]);
     }
     return 0;
+}
+
+
+struct f1er *  create_filtro_primer_orden (float fc, float fs)
+{
+    t_errors_f1er error=NO_ERROR;
+    struct factory_f1er_low_pass * factory1;
+    factory1 = malloc(sizeof(*factory1));
+    factory_f1er_low_pass_init(factory1);
+    error=set_frecuencies_f1er_low_pass_init(&factory1->factory_f1er,fc,fs);
+    switch (error) {
+    case ERROR_FC_ZERO:
+        printf ("la frecuencia de corte es 0\n");
+        break;
+    case ERROR_FS_ZERO:
+        printf ("la frecuencia de muestreo es 0\n");
+        break;
+    case ERROR_FS_MINOR_FC:
+        printf ("la frecuencia de muestreo es menor que la frecuencia de cortte\n");
+        break;
+    case NO_ERROR:
+        return (factory_f1er_create(&factory1->factory_f1er));
+        break;
+    default:
+        break;
+    }
+
 }
