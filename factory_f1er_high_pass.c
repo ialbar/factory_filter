@@ -63,3 +63,18 @@ void factory_f1er_high_pass_init(struct factory_f1er_high_pass *factory_f1er_hig
     factory_f1er_high_pass->factory_f1er.ops = &factory_f1er_ops;
 }
 
+t_errors_f1er set_frecuencies_f1er_high_pass_init(struct factory_f1er * factory_f1er,float fc,float fs)
+{
+    if (fc==0.0)
+        return ERROR_FC_ZERO;
+    else if (fs==0.0)
+        return ERROR_FS_ZERO;
+    else if (fs<fc)
+        return ERROR_FS_MINOR_FC;
+    else
+    {
+        factory_f1er->config.fc=(float_t)fc;
+        factory_f1er->config.fs=(float_t)fs;
+        return NO_ERROR;
+    }
+}

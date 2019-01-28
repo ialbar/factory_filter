@@ -21,7 +21,8 @@ SOURCES += \
     factory_fsos.c \
     fsos_nth_order.c \
     factory_f1er_high_pass.c \
-    f1er_highpass.c
+    f1er_highpass.c \
+    create_filters.c
 
 HEADERS += \
     f1er.h \
@@ -40,4 +41,5 @@ HEADERS += \
     factory_fsos.h \
     fsos_nth_order.h \
     factory_f1er_high_pass.h \
-    f1er_highpass.h
+    f1er_highpass.h \
+    create_filters.h

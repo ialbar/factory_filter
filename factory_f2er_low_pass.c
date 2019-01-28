@@ -58,3 +58,21 @@ void factory_f2er_low_pass_init(struct factory_f2er_low_pass *factory_f2er_low_p
     factory_f2er_low_pass->factory_f2er.ops = &factory_f2er_ops;
 }
 
+
+t_errors_f2er set_frecuencies_f2er_low_pass_init(struct factory_f2er * factory_f2er,float fc,float fs, float Q)
+{
+    if (fc==0.0)
+        return ERROR_FC_ZERO_F2ER;
+    else if (fs==0.0)
+        return ERROR_FS_ZERO_F2ER;
+    else if (fs<fc)
+        return ERROR_FS_MINOR_FC_F2ER;
+    else
+    {
+        factory_f2er->config.fc=(float_t)fc;
+        factory_f2er->config.fs=(float_t)fs;
+        factory_f2er->config.Q=(float_t)Q;
+        return NO_ERROR_F2ER;
+    }
+}
+

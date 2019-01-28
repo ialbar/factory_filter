@@ -9,6 +9,7 @@ struct factory_f1er_high_pass {
 };
 
 void factory_f1er_high_pass_init(struct factory_f1er_high_pass *);
+t_errors_f1er set_frecuencies_f1er_high_pass_init(struct factory_f1er * ,float ,float );
 
 
 

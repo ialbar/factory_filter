@@ -1,19 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "f1er.h"
-#include "f2er.h"
-#include "factory_f1er_low_pass.h"
-#include "factory_f1er_high_pass.h"
-#include "factory_f2er_low_pass.h"
-#include "factory_f2er_band_pass.h"
-#include "factory_f2er_high_pass.h"
-#include "factory_fsos.h"
 #include "stdint.h"
 #include "math.h"
+#include "f1er.h"
+#include "f2er.h"
+#include "fsos.h"
+#include "create_filters.h"
 
 #define N 20
-
-struct f1er * create_filtro_primer_orden (float fc, float fs);
 
 
 int main()
@@ -26,14 +20,6 @@ int main()
     struct f2er * filtro5;
     struct fsos * filtro6;
 
-    struct factory_f1er_low_pass * factory1;
-    struct factory_f1er_high_pass * factory2;
-    struct factory_f2er_low_pass * factory3;
-    struct factory_f2er_band_pass * factory4;
-    struct factory_f2er_high_pass * factory5;
-    struct factory_fsos * factory6;
-
-    t_errors_f1er error=NO_ERROR;
 
     float_t bsos[6]={1.0,2.0,1.0,1.0,2.0,1.0}; // Sos1, Sos2
     float_t asos[6]={1.0,-0.8659,0.21,1.0,-1.1249,0.5777}; //Sos1, Sos2
@@ -41,64 +27,13 @@ int main()
     float_t udc[N], udc2[N];
     float_t udc_second[N],udc_second_band_pass[N],udc_second_high_pass[N];
     float_t udc_fsos[N];
-#if 0
-    factory1 = malloc(sizeof(*factory1));
-    factory_f1er_low_pass_init(factory1);
-//    factory1->factory_f1er.config.fc=(float_t)1.0;
-//    factory1->factory_f1er.config.fs=(float_t)0.0;
-    error=set_frecuencies_f1er_low_pass_init(&factory1->factory_f1er,0.0,1.0);
-    switch (error) {
-    case ERROR_FC_ZERO:
-        printf ("la frecuencia de corte es 0\n");
-        break;
-    case ERROR_FS_ZERO:
-        printf ("la frecuencia de muestreo es 0\n");
-        break;
-    case ERROR_FS_MINOR_FC:
-        printf ("la frecuencia de muestreo es menor que la frecuencia de cortte\n");
-        break;
-    default:
-        break;
-    }
-    filtro1=factory_f1er_create(&factory1->factory_f1er);
-#endif
 
-    filtro1=create_filtro_primer_orden(1.0,10.0);
-
-    factory2 = malloc(sizeof(*factory2));
-    factory_f1er_high_pass_init(factory2);
-    factory2->factory_f1er.config.fc=(float_t)0.1e3;
-    factory2->factory_f1er.config.fs=(float_t)10.0e3;
-    filtro2=factory_f1er_create(&factory2->factory_f1er);
-
-    factory3 = malloc(sizeof(*factory3));
-    factory_f2er_low_pass_init(factory3);
-    factory3->factory_f2er.config.fc=(float_t)1.0;
-    factory3->factory_f2er.config.fs=(float_t)0.0;
-    factory3->factory_f2er.config.Q=(float_t)0.6;
-    filtro3=factory_f2er_create(&factory3->factory_f2er);
-
-    factory4 = malloc(sizeof(*factory4));
-    factory_f2er_band_pass_init(factory4);
-    factory4->factory_f2er.config.fc=(float_t)1.0;
-    factory4->factory_f2er.config.fs=(float_t)0.0;
-    factory4->factory_f2er.config.Q=(float_t)0.6;
-    filtro4=factory_f2er_create(&factory4->factory_f2er);
-
-    factory5 = malloc(sizeof(*factory5));
-    factory_f2er_high_pass_init(factory5);
-    factory5->factory_f2er.config.fc=1;
-    factory5->factory_f2er.config.fs=0;
-    factory5->factory_f2er.config.Q=(float_t)1.0;
-    filtro5=factory_f2er_create(&factory5->factory_f2er);
-
-    factory6 = malloc(sizeof(*factory6));
-    factory_fsos_init(factory6);
-    factory6->config.order=4;
-    factory6->config.Ksos=(float_t)(0.0098);
-    factory6->config.asos=&asos[0];
-    factory6->config.bsos=&bsos[0];
-    filtro6=factory_fsos_create(factory6);
+    filtro1=create_f1er_low_pass(1.0,10.0);
+    filtro2=create_f1er_high_pass(0.1,10.0);
+    filtro3=create_f2er_low_pass(100.0,10.0e3,4.0);
+    filtro4=create_f2er_band_pass(1.0e3,10.0e3,12);
+    filtro5=create_f2er_high_pass(2.0e3,10.0e3,20);
+    filtro6=create_fsos (4, 0.0098,&asos[0], &bsos[0]);
 
     for (i=0;i<N;i++)
     {
@@ -119,28 +54,3 @@ int main()
 }
 
 
-struct f1er *  create_filtro_primer_orden (float fc, float fs)
-{
-    t_errors_f1er error=NO_ERROR;
-    struct factory_f1er_low_pass * factory1;
-    factory1 = malloc(sizeof(*factory1));
-    factory_f1er_low_pass_init(factory1);
-    error=set_frecuencies_f1er_low_pass_init(&factory1->factory_f1er,fc,fs);
-    switch (error) {
-    case ERROR_FC_ZERO:
-        printf ("la frecuencia de corte es 0\n");
-        break;
-    case ERROR_FS_ZERO:
-        printf ("la frecuencia de muestreo es 0\n");
-        break;
-    case ERROR_FS_MINOR_FC:
-        printf ("la frecuencia de muestreo es menor que la frecuencia de cortte\n");
-        break;
-    case NO_ERROR:
-        return (factory_f1er_create(&factory1->factory_f1er));
-        break;
-    default:
-        break;
-    }
-
-}
