@@ -28,7 +28,6 @@ static struct f1er * factory_f1er_high_pass_ops_create(struct factory_f1er *fact
     f1er_high_pass_init(f1);
     fc = factory_f1er->config.fc;
     fs = factory_f1er->config.fs + (float_t)FLT_EPSILON; // To avoid div by 0
-
     Tsample=1/fs;
     w0= 2*(float_t)M_PI*fc;
     b0=(float_t)(1.0);

@@ -28,12 +28,18 @@ int main()
     float_t udc_second[N],udc_second_band_pass[N],udc_second_high_pass[N];
     float_t udc_fsos[N];
 
-    filtro1=create_f1er_low_pass(1.0,10.0);
-    filtro2=create_f1er_high_pass(0.1,10.0);
-    filtro3=create_f2er_low_pass(100.0,10.0e3,4.0);
-    filtro4=create_f2er_band_pass(1.0e3,10.0e3,12);
-    filtro5=create_f2er_high_pass(2.0e3,10.0e3,20);
-    filtro6=create_fsos (4, 0.0098,&asos[0], &bsos[0]);
+    if (!(filtro1=create_f1er_low_pass(1.0,10.0)))
+        return -1;
+    if (!(filtro2=create_f1er_high_pass(0.1,10.0)))
+        return -1;
+    if (!(filtro3=create_f2er_low_pass(100.0,10.0e3,4.0)))
+       return -1;
+    if (!(filtro4=create_f2er_band_pass(1.0e3,10.0e3,12)))
+        return -1;
+    if (!(filtro5=create_f2er_high_pass(2.0e3,10.0e3,20)))
+        return -1;
+    if (!(filtro6=create_fsos (4, 0.0098,&asos[0], &bsos[0])))
+        return -1;
 
     for (i=0;i<N;i++)
     {

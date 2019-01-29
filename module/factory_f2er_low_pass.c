@@ -38,8 +38,8 @@ static struct f2er * factory_f2er_low_pass_ops_create(struct factory_f2er *facto
     filter = &(f2->f2er);
 
     filter->a[0]  =1; // a0
-    filter->a[1]  =-(cexpf(r1*Tsample)+cexpf(r2*Tsample));
-    filter->a[2]  =cexpf(r1*Tsample)*cexpf(r2*Tsample);
+    filter->a[1]  =-(cexpf(r1*Tsample)+cexpf(r2*Tsample)); //a1
+    filter->a[2]  =cexpf(r1*Tsample)*cexpf(r2*Tsample); //a2
     filter->b[0]  =0; // b0
     filter->b[1]  =0; // b1
     filter->b[2]  =filter->a[0]+filter->a[1]+filter->a[2]; // b2

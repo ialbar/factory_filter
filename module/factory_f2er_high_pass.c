@@ -12,12 +12,12 @@ static struct f2er * factory_f2er_high_pass_ops_create(struct factory_f2er *fact
     struct f2er_high_pass * f2;
     struct f2er * filter;
 
-    float complex num_wn,den_wn;
-    float_t gain_wn=0;
-    float_t K=0;
+    float complex num_w0,den_w0;
+    float_t gain_w0=0;
+    float_t Kfdt=0;
     float complex r1,r2;
 
-    float_t wn;
+    float_t w0;
     float_t Tsample;
 
     float_t fc;
@@ -33,11 +33,11 @@ static struct f2er * factory_f2er_high_pass_ops_create(struct factory_f2er *fact
     Q = factory_f2er->config.Q;
     zeta = 1/(2*Q);
 
-    wn= (float_t)(2*(float_t)M_PI*fc);
+    w0= (float_t)(2*(float_t)M_PI*fc);
     Tsample=1/fs;
 
-    r1=-((wn/Q)/2) + csqrtf((pow((wn/Q),2) - 4*(wn*wn)))/2;
-    r2=-((wn/Q)/2) - csqrtf((pow((wn/Q),2) - 4*(wn*wn)))/2;
+    r1=-((w0/Q)/2) + csqrtf((pow((w0/Q),2) - 4*(w0*w0)))/2;
+    r2=-((w0/Q)/2) - csqrtf((pow((w0/Q),2) - 4*(w0*w0)))/2;
 
     filter = &(f2->f2er);
 
@@ -48,14 +48,14 @@ static struct f2er * factory_f2er_high_pass_ops_create(struct factory_f2er *fact
     filter->b[0]  =1; // b0
     filter->b[1]  =-2; // b1
     filter->b[2]  =1; // b2
-    num_wn=(filter->b[0]*cexpf(I*2*wn*Tsample) + filter->b[1]*cexpf(I*wn*Tsample) + filter->b[2]);
-    den_wn=(filter->a[0]*cexpf(I*2*wn*Tsample) + filter->a[1]*cexpf(I*wn*Tsample) + filter->a[2]);
-    gain_wn=1/((2*zeta)*sqrtf(1-(zeta*zeta)));
-    K = gain_wn / cabsf(num_wn/den_wn);
+    num_w0=(filter->b[0]*cexpf(I*2*w0*Tsample) + filter->b[1]*cexpf(I*w0*Tsample) + filter->b[2]);
+    den_w0=(filter->a[0]*cexpf(I*2*w0*Tsample) + filter->a[1]*cexpf(I*w0*Tsample) + filter->a[2]);
+    gain_w0=1/((2*zeta)*sqrtf(1-(zeta*zeta)));
+    Kfdt = gain_w0 / cabsf(num_w0/den_w0);
     // bo*z^2-b12*z^1+b2
-    filter->b[0]  =1*K; // b0
-    filter->b[1]  =-2*K; // b1
-    filter->b[2]  =1*K; // b2
+    filter->b[0]  =1*Kfdt; // b0
+    filter->b[1]  =-2*Kfdt; // b1
+    filter->b[2]  =1*Kfdt; // b2
     return(&(f2->f2er));
 }
 

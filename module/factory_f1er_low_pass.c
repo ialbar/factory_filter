@@ -11,6 +11,7 @@
 
 static struct f1er * factory_f1er_low_pass_ops_create(struct factory_f1er *factory_f1er)
 {
+    uint8_t i=0;
     struct f1er_low_pass * f1;
     struct f1er * filter;
     float_t fc=0;
@@ -20,12 +21,15 @@ static struct f1er * factory_f1er_low_pass_ops_create(struct factory_f1er *facto
     fc = factory_f1er->config.fc;
     fs = factory_f1er->config.fs + (float_t)FLT_EPSILON; // To avoid div by 0
     filter = &(f1->f1er);
-    filter->b[0]    =(float_t)(1-exp(-2*M_PI*fc*1/fs)); // b0
+    filter->b[0]    =(float_t)(1-exp(-2*M_PI*fc/fs)); // b0
     filter->b[1]    = 0;
     filter->a[0]    =(float_t)(1); // a0
-    filter->a[1]    =(float_t)(-exp(-2*M_PI*fc*1/fs));// a1
-    filter->yiir[0]=0;
-    filter->yiir[1]=0;
+    filter->a[1]    =(float_t)(-exp(-2*M_PI*fc/fs));// a1
+    for (i=0;i<=1;i++)
+    {
+        filter->yiir[i]=(float_t)0.0;
+        filter->xiir[i]=(float_t)0.0;
+    }
     return &f1->f1er;
 }
 

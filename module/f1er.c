@@ -20,8 +20,8 @@ void f1er_init(struct f1er *filter)
 {
     filter->a=(float_t *)malloc(2 * sizeof(float_t));
     filter->b=(float_t *)malloc(2 * sizeof(float_t));
-    filter->yiir=(float_t *)malloc(1 * sizeof(float_t));
-    filter->xiir=(float_t *)malloc(1 * sizeof(float_t));
+    filter->yiir=(float_t *)malloc(2 * sizeof(float_t));
+    filter->xiir=(float_t *)malloc(2 * sizeof(float_t));
     filter->ops = &f1er_ops;
 }
 

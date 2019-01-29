@@ -13,11 +13,11 @@ static struct f2er * factory_f2er_band_pass_ops_create(struct factory_f2er *fact
     struct f2er * filter;
     uint8_t j,i=0;
 
-    float complex num_wn,den_wn=0;
-    float_t gain_wn=0;
+    float complex num_w0,den_w0=0;
+    float_t gain_w0=0;
     float complex r1,r2;
 
-    float_t wn;
+    float_t w0;
     float_t Tsample;
 
     float_t fc=(float_t)0.0f;
@@ -31,11 +31,11 @@ static struct f2er * factory_f2er_band_pass_ops_create(struct factory_f2er *fact
     fs = factory_f2er->config.fs + FLT_EPSILON ;
     Q = factory_f2er->config.Q;
 
-    wn= 2*M_PI*fc;
+    w0= 2*M_PI*fc;
     Tsample=1/fs;
 
-    r1=-((wn/Q)/2) + csqrtf((pow((wn/Q),2) - 4*(wn*wn)))/2;
-    r2=-((wn/Q)/2) - csqrtf((pow((wn/Q),2) - 4*(wn*wn)))/2;
+    r1=-((w0/Q)/2) + csqrtf((pow((w0/Q),2) - 4*(w0*w0)))/2;
+    r2=-((w0/Q)/2) - csqrtf((pow((w0/Q),2) - 4*(w0*w0)))/2;
 
     filter = &(f2->f2er);
 
@@ -43,12 +43,12 @@ static struct f2er * factory_f2er_band_pass_ops_create(struct factory_f2er *fact
     filter->a[1]  =-(cexpf(r1*Tsample)+cexpf(r2*Tsample));
     filter->a[2]  =cexpf(r1*Tsample)*cexpf(r2*Tsample);
 
-    gain_wn=(float_t)1.0f; // ajusto a la frecuencia de paso
-    num_wn=cexpf(I*wn*Tsample)-1;
-    den_wn=(filter->a[0]*cexpf(I*2*wn*Tsample) + filter->a[1]*cexpf(I*wn*Tsample) + filter->a[2]);
+    gain_w0=(float_t)1.0f; // ajusto a la frecuencia de paso
+    num_w0=cexpf(I*w0*Tsample)-1;
+    den_w0=(filter->a[0]*cexpf(I*2*w0*Tsample) + filter->a[1]*cexpf(I*w0*Tsample) + filter->a[2]);
     filter->b[0]  =0; // b0
-    filter->b[1]  =gain_wn/crealf(cabsf(num_wn/den_wn)); // b1
-    filter->b[2]  =-gain_wn/crealf(cabsf(num_wn/den_wn)); // b2
+    filter->b[1]  =gain_w0/crealf(cabsf(num_w0/den_w0)); // b1
+    filter->b[2]  =-gain_w0/crealf(cabsf(num_w0/den_w0)); // b2
     return(&(f2->f2er));
 }
 

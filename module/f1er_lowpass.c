@@ -14,8 +14,6 @@ static float_t f1er_low_pass_ops_filtered(struct f1er *f1er, float_t input)
     f1er->yiir[0]=f1er->b[0] * input - (f1er->a[1] * f1er->yiir[1]);
 
     return f1er->yiir[0];
-
-
 }
 
 static struct f1er_ops f1er_ops = {
