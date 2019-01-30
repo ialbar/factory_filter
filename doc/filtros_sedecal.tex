@@ -16,7 +16,7 @@
 \title{Filtros software en el proyecto SHFD}
 \date{} % para que no aparezca la fecha la dejo en blanco
 
-\begin{document}
+\begin{document} 
 \maketitle
 En este documento se muestra como se ha realizado el cálculo de coeficientes de la librería de filtros que se utilizan en el proyecto SHFD. Hay tres familias de filtros: filtros de primer orden, filtros de segundo orden, y filtros de orden superior. 
 
@@ -72,12 +72,22 @@ siguiendo la estructura estándar de filtros digitales:
 \begin{equation}
 y[n]=(b_0x[n]+b_1x[n-1]+ ....)-(a_1y[n-1] + a_2y[n-2] + .....)  
 \end{equation}
-los coeficientes finales que obtenemos son:
-\begin{equation}
-a_0=1;
-a_1=e^{-\omega_oT};
-b_0=1-e^{-\omega_oT}
-\end{equation}
+los coeficientes del numerador son:
+	\begin{equation}
+		b_0=1;
+	\end{equation}
+	\begin{equation}
+		b_1=e^{-\omega_oT};
+	\end{equation}
+
+los coeficientes del denominador son:
+	\begin{equation}
+		a_0=1;
+	\end{equation}
+	\begin{equation}
+		a_1=e^{-\omega_oT};
+	\end{equation}
+	
 \subsubsection{Código de Matlab}
 \lstset{language=Matlab,%
 	basicstyle=\scriptsize,
@@ -123,18 +133,18 @@ Con estos parámetros el método software se encargará de extraer los coeficien
 \end{equation}
 \quad siendo ${\omega_o}=2{\pi}fc$ ;fc es la frecuencia de corte del filtro 
 \subsubsection{Mapeo de polos y ceros en el plazo z}
-Como se puede extraer de \ref{eqn:tfs_filtro_paso_alto_primer_orden} tenemos:
-
+Como se puede extraer de (\ref{eqn:tfs_filtro_paso_alto_primer_orden}) tenemos:
 \begin{enumerate}
-\item Un polo en $s=-{\omega_o}$, y por lo tanto el filtro digital tendrá un polo en $z=e^{-\omega_oT}$ 
-\item Un cero en el origen $s=0$, y por lo tanto el filtro digital tendrá un cero en $z=1"$
-	\begin{equation}
-		H(z)=K\frac{z-1}{z-e^{-\omega_oT}} 
-	\end{equation}
+	\item Un polo en $s=-{\omega_o}$, y por lo tanto el filtro digital tendrá un polo en 		$z=e^{-\omega_oT}$ 
+	\item Un cero en el origen $s=0$, y por lo tanto el filtro digital tendrá un cero en 		$z=1"$
+	Por lo tanto la función de transferencia en la transformada Z tendrá este aspecto:\\
+		\begin{equation}
+			H(z)=K\frac{z-1}{z-e^{-\omega_oT}} 
+		\end{equation}
 \end{enumerate}
 
 \subsubsection{Valor de la ganancia}
-Buscamos determinar el valor de la ganancia K para obtener el mismo resultado en el filtro digital y analógico en el rango de frecuencias de los filtros. Comparamos la ganancia de ambos filtros a la misma frecuencia.
+Buscamos determinar el valor de la ganancia del filtro K, para obtener el mismo resultado en el filtro digital y analógico en el mismo rango de frecuencia. Por lo tanto, comparamos la ganancia de ambos filtros a la misma frecuencia $\omega_0$.
 
 \subsubsection{Cálculo de ganancia a frecuencias bajas}
 \begin{equation}
@@ -143,7 +153,7 @@ Buscamos determinar el valor de la ganancia K para obtener el mismo resultado en
 \begin{equation}
 \label{eq:lim_Hz_primer_orden_paso_alto}\lim_{\omega \to \omega_o}H(e^{j\omega_oT})=K\frac{e^{j\omega_oT} -1}{e^{j\omega_oT}-e^{-\omega_oT}}
 \end{equation}
-\quad igualando \ref{eq:lim_Hs_primer_orden_paso_alto} y \ref{eq:lim_Hz_primer_orden_paso_alto} obtenemos el valor de la ganancia K.
+\quad igualando (\ref{eq:lim_Hs_primer_orden_paso_alto}) y (\ref{eq:lim_Hz_primer_orden_paso_alto}) obtenemos el valor de la ganancia K.
 
 
 \subsubsection{Ecuación final en diferencias}
@@ -162,13 +172,21 @@ siguiendo la estructura estándar de filtros digitales:
 \begin{equation}
 y[n]=(b_0x[n]+b_1x[n-1]+ ....)-(a_1y[n-1] + a_2y[n-2] + .....)  
 \end{equation}
-los coeficientes finales que obtenemos son:
-\begin{equation}
-a_0=1;
-a_1=e^{-\omega_oT};
-b_0=1;
-b_1=-1
-\end{equation}
+los coeficientes numerador son :
+	\begin{equation}
+		b_0=1;
+	\end{equation}
+	\begin{equation}
+		b_1=-1
+	\end{equation}
+los coeficientes denominador son :
+	\begin{equation}
+		a_0=1;
+	\end{equation}
+	\begin{equation}
+		a_1=e^{-\omega_oT};
+	\end{equation}
+
 
 \subsubsection{Código de Matlab}
 \lstset{language=Matlab,%
@@ -190,7 +208,7 @@ b_1=-1
 \lstinputlisting{filtro_paso_alto_primer_orden.m}
 
 \subsubsection{Respuesta en frecuencia del filtro}
-En la siguiente gráfica \ref{fig:filtro_paso_alto_primer_orden} se muestra la respuesta del filtro de paso alto digital.
+En la siguiente gráfica (\ref{fig:filtro_paso_alto_primer_orden}) se muestra la respuesta del filtro de paso alto digital.
 \begin{figure}[H]
   \centering
 	\includegraphics[scale=0.4]{filtro_paso_alto_primer_orden}
@@ -272,21 +290,17 @@ Siguiendo la estructura estándar de filtros digitales:
 a_0y[n]=(b_0x[n]+b_1x[n-1]+ ....)-(a_1y[n-1] + a_2y[n-2] + .....)  
 \end{equation}
 los coeficientes finales que obtenemos son:
-\begin{equation}
-a_0=1
-\end{equation}
+	\begin{equation}
+		a_0=1
+	\end{equation}
 
-\begin{equation}
-a_1=-(e^{(-\sigma+j\omega)T}+e^{(-\sigma-j\omega)T})
-\end{equation}
+	\begin{equation}
+		a_1=-(e^{(-\sigma+j\omega)T}+e^{(-\sigma-j\omega)T})
+	\end{equation}
 
-%\begin{equation}
-%a_1=-e^{{-\sigma}T}[\cos{({\omega}T)} + \cos{(-{\omega}T)}]
-%\end{equation}
-
-\begin{equation}
-a_2=e^{-2{\sigma}T}
-\end{equation}
+	\begin{equation}
+		a_2=e^{-2{\sigma}T}
+	\end{equation}
 
 \subsubsection{Código de Matlab}
 \lstset{language=Matlab,%
@@ -376,16 +390,24 @@ Siguiendo la estructura estándar de filtros digitales:
 \begin{equation}
 a_0y[n]=(b_0x[n]+b_1x[n-1]+ ....)-(a_1y[n-1] + a_2y[n-2] + .....)  
 \end{equation}
-los coeficientes finales que obtenemos son:
-\begin{equation}
-a_0=1
-\end{equation}
-\begin{equation}
-a_1=-(e^{(-\sigma+j\omega)T}+e^{(-\sigma-j\omega)T})
-\end{equation}
-\begin{equation}
-a_2=e^{-2{\sigma}T}
-\end{equation}
+los coeficientes del numerador son:
+	\begin{equation}
+		b_0=1
+	\end{equation}
+	\begin{equation}
+		b_1=-1
+	\end{equation}
+	
+los coeficientes del denominador son:
+	\begin{equation}
+		a_0=1
+	\end{equation}
+	\begin{equation}
+		a_1=-(e^{(-\sigma+j\omega)T}+e^{(-\sigma-j\omega)T})
+	\end{equation}
+	\begin{equation}
+		a_2=e^{-2{\sigma}T}
+	\end{equation}
 
 \subsubsection{Código de Matlab}
 \lstset{language=Matlab,%
@@ -417,9 +439,9 @@ En la siguiente gráfica se muestra \ref{fig:bandpassdiscrete} la respuesta del 
 \subsubsection{Implementación}
 Al método software que se encarga de ejecutar este filtrado , se le deberán pasar los siguientes parámetros:
 \begin{enumerate}
-\item Frecuencia de muestro 
-\item Frecuencia de corte
-\item Factor de calidad
+	\item Frecuencia de muestro 
+	\item Frecuencia de corte
+	\item Factor de calidad
 \end{enumerate}
 Con estos parámetros el método software se encargará de extraer los coeficientes como se ha visto en los puntos anteriores y, realizar el filtrado de la muestra de entrada.
 
