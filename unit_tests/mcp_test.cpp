@@ -18,7 +18,7 @@ using namespace std;
 extern "C"
 {
 	#include "test_doubles/stub_functions.h"
-  #include "../module/create_filters.h"
+  #include "../module/include/create_filters.h"
 }
 
 /*!

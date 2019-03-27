@@ -8,7 +8,9 @@
 # Test dir must be the folder where test sources are found.
 # ATTENTION: CPPUTEST_HOME must be defined as a environment variable,
 # pointing to the root directory of cpputest installation.
-MODULE_DIR = ../module
+MODULE_INCLUDE_DIR 	= ../module/include
+MODULE_SOURCE_DIR 	= ../module/source
+#EXAMPLE_DIR = ../module/example
 TEST_DIR   = .
 
 # VARIABLE DECLARATIONS
@@ -43,7 +45,9 @@ OBJS   += obj/create_filters.o
 CFLAGS  = -g3 -Wall -pedantic -fprofile-arcs -ftest-coverage -fpermissive
 CFLAGS += -D ONLY_PC_TEST
 CFLAGS += -I.
-CFLAGS += -I$(MODULE_DIR)
+CFLAGS += -I$(MODULE_INCLUDE_DIR)
+CFLAGS += -I$(MODULE_SOURCE_DIR)
+#CFLAGS += -I$(EXAMPLE_DIR)
 CFLAGS += -I$(TEST_DIR)
 CFLAGS += -I$(TEST_DIR)/test_doubles/
 CFLAGS += -I$(CPPUTEST_HOME)/include/
@@ -60,6 +64,10 @@ VPATH += $(SRC_DIR)
 VPATH += $(MODULE_DIR)
 VPATH += $(TEST_DIR)
 VPATH += $(TEST_DIR)/test_doubles/
+VPATH += $(MODULE_INCLUDE_DIR)
+VPATH += $(MODULE_SOURCE_DIR)
+
+
 	
 obj/%.o: %.cpp
 	g++ -c $< -o $@ $(CFLAGS)
@@ -71,7 +79,6 @@ obj:
 	-mkdir obj
 	
 clean:
-	-rm $(OBJS) 
 	-rm -r obj
 	-rm UnitTestPC.info
 	-rm UnitTestPC

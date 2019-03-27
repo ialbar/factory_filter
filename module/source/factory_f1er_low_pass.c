@@ -1,11 +1,17 @@
 #include "stdio.h"
-#include "factory_f1er_low_pass.h"
-#include "f1er_lowpass.h"
+#include "../include/factory_f1er_low_pass.h"
+#include "../include/f1er_lowpass.h"
 #include "stdlib.h"
-#include "math.h"
 #include "float.h"
 #include <complex.h>
-#include "f1er.h"
+#include "../include/f1er.h"
+#include "math.h"
+
+#ifdef __TMS320C28XX__
+    #define uint8_t uint16_t
+    #define M_PI        3.14159265358979323846  /* pi */
+#endif
+
 
 
 

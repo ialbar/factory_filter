@@ -1,4 +1,4 @@
-#include "fsos_nth_order.h"
+#include "../include/fsos_nth_order.h"
 #include "stdint.h"
 
 static float_t fsos_nth_order_ops_filtered(struct fsos *fsos, float_t input)

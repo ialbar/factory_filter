@@ -1,5 +1,5 @@
-#include "factory_fsos.h"
-#include "fsos_nth_order.h"
+#include "../include/factory_fsos.h"
+#include "../include/fsos_nth_order.h"
 #include "math.h"
 #include <complex.h>
 #include "string.h"

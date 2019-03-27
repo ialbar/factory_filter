@@ -3,6 +3,10 @@
 #include "stdint.h"
 #include "math.h"
 
+#ifdef __TMS320C28XX__
+    #define float_t float
+#endif
+
 struct fsos_ops;
 struct fsos
 {

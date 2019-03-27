@@ -1,11 +1,15 @@
 #include "stdio.h"
-#include "factory_f2er_high_pass.h"
-#include "f2er_highpass.h"
+#include "../include/factory_f2er_high_pass.h"
+#include "../include/f2er_highpass.h"
 #include "stdint.h"
 #include "math.h"
 #include "float.h"
 #include <complex.h>
 #include <stdlib.h>
+
+#ifdef __TMS320C28XX__
+    #define M_PI        3.14159265358979323846  /* pi */
+#endif
 
 static struct f2er * factory_f2er_high_pass_ops_create(struct factory_f2er *factory_f2er)
 {

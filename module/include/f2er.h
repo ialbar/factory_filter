@@ -2,6 +2,10 @@
 #define F2ER_H
 #include "math.h"
 
+#ifdef __TMS320C28XX__
+    #define float_t float
+#endif
+
 typedef enum errors_f2er {
     NO_ERROR_F2ER=0,
     ERROR_FS_ZERO_F2ER = -1,

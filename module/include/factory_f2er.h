@@ -2,6 +2,10 @@
 #define FACTORY_F2ER_H
 #include "math.h"
 
+#ifdef __TMS320C28XX__
+    #define float_t float
+#endif
+
 struct factory_f2er_ops;
 
 struct factory_f2er_config

@@ -1,12 +1,16 @@
-#include "factory_f1er_high_pass.h"
+#include "../include/factory_f1er_high_pass.h"
 #include "stdio.h"
-#include "f1er_highpass.h"
+#include "../include/f1er_highpass.h"
 #include "stdint.h"
 #include "stdlib.h"
 #include "math.h"
 #include "float.h"
 #include <complex.h>
 
+#ifdef __TMS320C28XX__
+    #define uint8_t uint16_t
+    #define M_PI        3.14159265358979323846  /* pi */
+#endif
 
 
 static struct f1er * factory_f1er_high_pass_ops_create(struct factory_f1er *factory_f1er)

@@ -11,6 +11,10 @@
 #include "factory_fsos.h"
 #include "stdint.h"
 
+#ifdef __TMS320C28XX__
+    #define uint8_t uint16_t
+#endif
+
 struct f1er * create_f1er_low_pass (float fc, float fs);
 struct f1er * create_f1er_high_pass (float fc, float fs);
 struct f2er * create_f2er_low_pass (float fc, float fs, float Q);

@@ -1,11 +1,13 @@
 #include "stdio.h"
-#include "factory_f2er_low_pass.h"
-#include "f2er_lowpass.h"
+#include "../include/factory_f2er_low_pass.h"
+#include "../include/f2er_lowpass.h"
 #include "stdint.h"
 #include "stdlib.h"
 #include "math.h"
 #include "float.h"
 #include <complex.h>
+
+#define M_PI        3.14159265358979323846  /* pi */
 
 static struct f2er * factory_f2er_low_pass_ops_create(struct factory_f2er *factory_f2er)
 {

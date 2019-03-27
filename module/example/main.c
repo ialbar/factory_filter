@@ -2,10 +2,7 @@
 #include <stdlib.h>
 #include "stdint.h"
 #include "math.h"
-#include "f1er.h"
-#include "f2er.h"
-#include "fsos.h"
-#include "create_filters.h"
+#include "../../include/create_filters.h"
 
 #define N 20
 
